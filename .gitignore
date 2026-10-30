@@ -229,7 +229,7 @@ __marimo__/
 
 # Developer personal artifacts
 /docs/references/internal/
-/docs/internal/
+/docs/*/internal/
 /src/config/log/logging.override.yaml
 tmp/
 
