@@ -7,7 +7,7 @@
 
 ### 文件快速索引
 
-- [分支规范](docs/zh-CN/standards/branching.md): -
+- [分支规范](docs/zh-CN/standards/branching.md)：规定分支模型与命名、日常开发与 PR 合并流程，以及版本 tag 和发布规则。
 
 ## 工具
 
