@@ -29,10 +29,11 @@
 ├── tests/
 ├── examples/              # 独立脚本与使用者迁移脚本示例
 ├── devops/                # 开发、测试与发布支持文件
+│   └── docker/            
 └── tmp/                   # 临时文件，按 YYYYMMDD/ 存放（忽略）
 ```
 
-## docs
+## docs/
 
 ```text
 docs/
@@ -43,7 +44,7 @@ docs/
 └── en/               # 英文文档
 ```
 
-## src
+## src/
 
 ```text
 src/
@@ -58,7 +59,20 @@ src/
         └── __init__.py
 ```
 
-## test
+## devops/docker/
+
+主要为集成测试提供数据库服务。
+
+```text
+devops/docker/
+├── mysql.compose.yaml
+├── postgres.compose.yaml
+└── example.env.d/
+    ├── mysql.env
+    └── postgres.env
+```
+
+## test/
 
 测试统一放在 `tests/`，按是否依赖真实数据库分层，各层内部按被测模块或数据库组织。
 
