@@ -10,16 +10,12 @@ flowchart LR
     M --> T[Git tag vX.Y.Z]
     T --> R[GitHub Release]
     T --> P[PyPI 发布]
-
-    M -. 按需创建 .-> B[release/vX.Y.Z]
-    B -. 修复同步回 main .-> M
 ```
 
 ## 分支
 
 - `main`：稳定、可测试、可发布的唯一长期分支。
 - `feature/*`、`fix/*`、`docs/*`、`refactor/*`、`test/*`、`chore/*`：短期工作分支，合并后删除。
-- `release/vX.Y.Z`：发布收口时按需使用，发布后删除。
 - 不建立长期 `dev` 分支，不直接向 `main` 推送变更。
 
 ## 命名
@@ -33,7 +29,7 @@ flowchart LR
 - 使用小写英文字母、数字和连字符 `-`。
 - 每个分支只处理一个目标。
 - 不使用日期、开发者名称或 `temp`、`test1` 等模糊名称。
-- 已发布版本修复使用 `fix/vX.Y.x-<summary>`，从对应的维护基线创建分支。
+- 已发布版本修复使用 `fix/vX.Y.x-<summary>`，从对应版本的 tag 创建分支；修复应同步回 `main`。
 
 ## 日常开发
 
@@ -50,8 +46,6 @@ flowchart LR
 - 从经过验证的发布提交创建 `vMAJOR.MINOR.PATCH` tag，并使用相同版本号发布 GitHub Release 和 PyPI 包。
 - `MAJOR` 表示不兼容变更，`MINOR` 表示兼容功能增加，`PATCH` 表示兼容修复。
 - 已推送的 tag 不修改、不复用。
-- 需要发布收口且 `main` 继续开发时，使用 `release/vX.Y.Z`；该分支只处理版本、文档、测试和发布阻断问题。
-- 发布分支上的修复应同步回 `main`；发布完成后删除发布分支。
 
 ## Pull Request
 
