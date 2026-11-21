@@ -1,31 +1,30 @@
 # AGENTS.md
 
-## Rules
+## 规则
 
-- Before starting a task, check the applicable development standards in `docs/en/standards/`.
-- Before modifying files, check applicable `AGENTS.md` files along the directory hierarchy. Keep directory-specific
-  rules in the nearest `AGENTS.md`.
+- 开始任务前，检查 `docs/zh-CN/standards/` 中适用的开发规范。
+- 修改文件前，检查当前目录层级中适用的 `AGENTS.md` 文件。目录专属规则应放在最近的 `AGENTS.md` 中。
 
-| Standard       | When to read                |
-|----------------|-----------------------------|
-| `branching.md`         | Creating or naming branches        |
-| `project_structure.md` | Creating, moving, or removing files |
+| 规范文件 | 适用场景 |
+|---|---|
+| `branching.md` | 创建或命名分支 |
+| `project_structure.md` | 创建、移动或删除文件 |
 
-## Tooling
+## 工具
 
-- Use [uv](https://docs.astral.sh/uv/) for Python package and project management.
-- Use `pytest-asyncio` with `asyncio_mode = auto`; do not explicitly add `@pytest.mark.asyncio`.
-- Store temporary files in `tmp/<YYYYMMDD>/`.
+- 使用 [uv](https://docs.astral.sh/uv/) 管理 Python 包和项目。
+- 使用 `pytest-asyncio`，并设置 `asyncio_mode = auto`；不要显式添加 `@pytest.mark.asyncio`。
+- 临时文件存放在 `tmp/<YYYYMMDD>/` 中。
 
 ## Markdown
 
-- Keep it simple and structured. Avoid long blocks of text.
-- Prefer: diagrams > tables > short lists.
+- 保持内容简洁、结构清晰，避免大段文字。
+- 优先级：图表 > 表格 > 简短列表。
 
-| Format      | Use for                                                                |
-|-------------|------------------------------------------------------------------------|
-| Mermaid     | Flows, sequences, states, architecture, responsibilities, transactions |
-| Tables      | Fields, rules, mappings, comparisons                                   |
-| Short lists | Simple facts, notes                                                    |
+| 格式 | 适用场景 |
+|---|---|
+| Mermaid | 流程、时序、状态、架构、职责、事务 |
+| 表格 | 字段、规则、映射、对比 |
+| 简短列表 | 简单事实、备注 |
 
-- Do not repeat information already conveyed clearly by diagrams or tables.
+- 不要重复描述图表或表格中已经清晰表达的信息。
