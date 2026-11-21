@@ -18,19 +18,19 @@
 
 ```text
 /
-├── AGENTS.md
+├── AGENTS.md              # AI 编码助手的仓库工作规则
 ├── README.md
 ├── LICENSE
-├── pyproject.toml
-├── uv.lock
+├── pyproject.toml         # 项目元数据、依赖与工具配置
+├── uv.lock                # uv 依赖锁文件
 ├── .gitignore
-├── docs/
-├── src/
-├── tests/
+├── docs/                  # 开发规范、设计说明与使用指南
+├── src/                   # 可发布的库源码
+├── tests/                 # 单元测试与集成测试
 ├── examples/              # 独立脚本与使用者迁移脚本示例
 ├── devops/                # 开发、测试与发布支持文件
-│   └── docker/            
-└── tmp/                   # 临时文件，按 YYYYMMDD/ 存放（忽略）
+│   └── docker/            # 集成测试数据库的容器配置
+└── tmp/                   # 临时文件，按 YYYYMMDD/ 存放（不纳入 git 管理）
 ```
 
 ## docs/
