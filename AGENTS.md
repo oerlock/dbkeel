@@ -12,5 +12,4 @@
 ## 工具
 
 - 使用 [uv](https://docs.astral.sh/uv/) 管理 Python 包和项目。
-- 使用 `pytest-asyncio`，并设置 `asyncio_mode = auto`；不要显式添加 `@pytest.mark.asyncio`。
 - 临时文件存放在 `tmp/<YYYYMMDD>/` 中。
