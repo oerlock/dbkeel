@@ -21,7 +21,7 @@
 ├── AGENTS.md              # AI 编码助手的仓库工作规则
 ├── README.md
 ├── LICENSE
-├── pyproject.toml         # 项目元数据、依赖与工具配置
+├── pyproject.toml         # 项目元数据、依赖与工具配置。测试与覆盖率配置统一放这里，不重复维护 pytest.ini 或 .coveragerc。
 ├── uv.lock                # uv 依赖锁文件
 ├── .gitignore
 ├── docs/                  # 开发规范、设计说明与使用指南
