@@ -4,7 +4,9 @@ name = "dbkeel"
 version = "0.1.0"
 description = "Lightweight relational database infrastructure for asynchronous Python applications."
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "pydantic-settings>=2.16.3",
+]
 
 [project.scripts]
 dbkeel = "dbkeel.cli:main"
@@ -31,6 +33,9 @@ dev = [
     "pytest-cov>=7.1.0",
     "ruff>=0.17.6",
 ]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
 
 # 测试发现与运行配置
 [tool.pytest.ini_options]

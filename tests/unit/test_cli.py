@@ -69,7 +69,7 @@ def test_library_import_without_optional_dependencies() -> None:
             (
                 "import sys; "
                 "sys.modules.update(typer=None, psycopg=None, psycopg_pool=None); "
-                "import dbkeel; import dbkeel.cli"
+                "import dbkeel; import dbkeel.cli; import dbkeel.postgres"
             ),
         ],
         check=False,
