@@ -31,6 +31,12 @@ uv sync
 uv add <包名>
 uv add --dev <包名>
 
+# 添加可选依赖，例如 PostgreSQL 驱动
+uv add --optional postgres "psycopg[binary]"
+
+# 同步环境时安装指定的可选依赖组
+uv sync --extra postgres
+
 # 删除依赖
 uv remove <包名>
 ```
