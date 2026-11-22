@@ -40,3 +40,13 @@ uv sync --extra postgres
 # 删除依赖
 uv remove <包名>
 ```
+
+## 测试
+
+```bash
+# 运行全部测试
+uv run pytest
+
+# 统计分支覆盖率，并显示未覆盖的行
+uv run pytest --cov --cov-report=term-missing
+```

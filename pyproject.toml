@@ -17,3 +17,18 @@ dev = [
     "pytest-cov>=7.1.0",
     "ruff>=0.17.6",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--import-mode=importlib", "--strict-config", "--strict-markers", "-ra"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+asyncio_default_test_loop_scope = "function"
+
+[tool.coverage.run]
+source = ["dbkeel"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
