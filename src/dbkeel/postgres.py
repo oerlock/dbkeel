@@ -6,7 +6,7 @@ from pydantic_settings import SettingsConfigDict
 from dbkeel.settings import BaseDBSettings
 
 
-class PostgresSettings(BaseDBSettings):
+class SettingsPG(BaseDBSettings):
     """Load PostgreSQL settings from ``DBKEEL_PG_`` variables.
 
     ``conninfo`` accepts a libpq URI or keyword/value connection string.

@@ -13,6 +13,8 @@
 
 ## 公共 API
 
+`BaseDB` 定义异步生命周期、连接借用和事务的公共接口；`DBPostgres` 继承 `BaseDB`，负责 PostgreSQL 实现，并接收 `SettingsPG` 配置对象。
+
 | 接口 | 行为 |
 | --- | --- |
 | `await db.open()` | 打开连接池并等待就绪 |
@@ -28,9 +30,9 @@
 普通操作默认自动提交，多条语句之间不保证原子性：
 
 ```python
-from dbkeel.postgres import PostgresDatabase, PostgresSettings
+from dbkeel.postgres import DBPostgres, SettingsPG
 
-async with PostgresDatabase(PostgresSettings()) as db:
+async with DBPostgres(SettingsPG()) as db:
     async with db.connection() as conn:
         async with conn.cursor() as cur:
             await cur.execute("SELECT name FROM users WHERE id = %s", (user_id,))
@@ -66,8 +68,8 @@ async with db.connection() as conn:
 - `conninfo` 以 `SecretStr` 保存，接受 Psycopg 支持的 PostgreSQL URI 或键值连接字符串，不自行解析或转换，交给驱动时提取原值。数据库、用户、密码、SSL、`application_name` 等通过它配置。
 - `min_size >= 1`，`max_size >= min_size`，超时必须为正数，实例化配置类时验证。首期不支持零连接启动或无限等待。
 - `connect_timeout` 显式传给驱动，覆盖连接字符串中的同名设置，控制底层连接尝试；`startup_timeout` 限制整个启动就绪等待；`acquire_timeout` 限制调用者等待连接的时间。
-- 仅在显式实例化 `PostgresSettings` 时读取配置，导入模块不创建配置实例。环境变量使用 `DBKEEL_POSTGRES_` 前缀，例如 `DBKEEL_POSTGRES_CONNINFO`。
-- 默认不加载 `.env`，需要时显式使用 `PostgresSettings(_env_file=".env")`。配置值默认优先级为显式参数、环境变量、指定 dotenv 文件、指定 secrets 目录、字段默认值，沿用 pydantic-settings 的来源机制。
+- 仅在显式实例化 `SettingsPG` 时读取配置，导入模块不创建配置实例。环境变量使用 `DBKEEL_POSTGRES_` 前缀，例如 `DBKEEL_POSTGRES_CONNINFO`。
+- 默认不加载 `.env`，需要时显式使用 `SettingsPG(_env_file=".env")`。配置值默认优先级为显式参数、环境变量、指定 dotenv 文件、指定 secrets 目录、字段默认值，沿用 pydantic-settings 的来源机制。
 - 允许共享 `.env` 中的无关字段（`extra="ignore"`）；配置实例不可修改，变更配置需新建实例。校验错误文本隐藏输入值，但结构化错误仍应由调用方筛选后记录。
 - Psycopg/libpq 对缺省连接参数的处理保留原有行为。
 - 不提供通用 `**kwargs` 透传，避免覆盖 `autocommit` 等受管理参数。后续按真实需求增加明确的配置项。

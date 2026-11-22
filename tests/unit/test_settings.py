@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from dbkeel.postgres import PostgresSettings
+from dbkeel.postgres import SettingsPG
 from dbkeel.settings import BaseDBSettings
 
 
@@ -23,7 +23,7 @@ def test_environment_and_explicit_override(monkeypatch: pytest.MonkeyPatch) -> N
     monkeypatch.setenv("DBKEEL_PG_MAX_SIZE", "12")
     monkeypatch.setenv("DBKEEL_PG_ACQUIRE_TIMEOUT", "2.5")
 
-    settings = PostgresSettings(max_size=20)
+    settings = SettingsPG(max_size=20)
 
     assert isinstance(settings, BaseDBSettings)
     assert settings.conninfo.get_secret_value() == "host=localhost dbname=app"
@@ -38,29 +38,23 @@ def test_dotenv_requires_explicit_selection(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     env_file = tmp_path / ".env"
-    env_file.write_text(
-        "DBKEEL_PG_CONNINFO=host=dotenv\nOTHER_APP_SETTING=ignored\n"
-    )
+    env_file.write_text("DBKEEL_PG_CONNINFO=host=dotenv\nOTHER_APP_SETTING=ignored\n")
     monkeypatch.chdir(tmp_path)
 
     with pytest.raises(ValidationError):
-        PostgresSettings()
+        SettingsPG()
 
-    assert (
-        PostgresSettings(_env_file=env_file).conninfo.get_secret_value()
-        == "host=dotenv"
-    )
+    assert SettingsPG(_env_file=env_file).conninfo.get_secret_value() == "host=dotenv"
     monkeypatch.setenv("DBKEEL_PG_CONNINFO", "host=environment")
     assert (
-        PostgresSettings(_env_file=env_file).conninfo.get_secret_value()
-        == "host=environment"
+        SettingsPG(_env_file=env_file).conninfo.get_secret_value() == "host=environment"
     )
 
 
 @pytest.mark.parametrize("conninfo", ["", " \n\t"])
 def test_blank_connection_string(conninfo: str) -> None:
     with pytest.raises(ValidationError, match="must not be blank"):
-        PostgresSettings(conninfo=conninfo)
+        SettingsPG(conninfo=conninfo)
 
 
 @pytest.mark.parametrize(
@@ -78,12 +72,12 @@ def test_blank_connection_string(conninfo: str) -> None:
 )
 def test_invalid_pool_configuration(values: dict[str, int | float]) -> None:
     with pytest.raises(ValidationError):
-        PostgresSettings.model_validate({"conninfo": "host=localhost", **values})
+        SettingsPG.model_validate({"conninfo": "host=localhost", **values})
 
 
 def test_secret_is_hidden_and_settings_are_immutable() -> None:
     conninfo = "postgresql://user:private-password@localhost/app"
-    settings = PostgresSettings(conninfo=conninfo)
+    settings = SettingsPG(conninfo=conninfo)
     assert settings.conninfo.get_secret_value() == conninfo
     assert "private-password" not in repr(settings)
     assert "private-password" not in settings.model_dump_json()
@@ -92,5 +86,5 @@ def test_secret_is_hidden_and_settings_are_immutable() -> None:
         settings.min_size = 20  # type: ignore[misc]  # Verify runtime immutability.
 
     with pytest.raises(ValidationError) as exc:
-        PostgresSettings(conninfo=conninfo, min_size=20, max_size=1)
+        SettingsPG(conninfo=conninfo, min_size=20, max_size=1)
     assert "private-password" not in str(exc.value)
