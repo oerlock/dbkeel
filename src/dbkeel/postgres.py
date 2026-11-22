@@ -7,13 +7,13 @@ from dbkeel.settings import BaseDBSettings
 
 
 class PostgresSettings(BaseDBSettings):
-    """Load PostgreSQL settings from ``DBKEEL_POSTGRES_`` variables.
+    """Load PostgreSQL settings from ``DBKEEL_PG_`` variables.
 
     ``conninfo`` accepts a libpq URI or keyword/value connection string.
     It is passed unchanged to the driver when a connection is established.
     """
 
-    model_config = SettingsConfigDict(env_prefix="DBKEEL_POSTGRES_")
+    model_config = SettingsConfigDict(env_prefix="DBKEEL_PG_")
 
     conninfo: SecretStr
 

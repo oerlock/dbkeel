@@ -13,15 +13,15 @@ from dbkeel.settings import BaseDBSettings
 @pytest.fixture(autouse=True)
 def clean_environment(monkeypatch: pytest.MonkeyPatch) -> None:
     for name in os.environ:
-        if name.upper().startswith("DBKEEL_POSTGRES_"):
+        if name.upper().startswith("DBKEEL_PG_"):
             monkeypatch.delenv(name)
 
 
 def test_environment_and_explicit_override(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("DBKEEL_POSTGRES_CONNINFO", "host=localhost dbname=app")
-    monkeypatch.setenv("DBKEEL_POSTGRES_MIN_SIZE", "2")
-    monkeypatch.setenv("DBKEEL_POSTGRES_MAX_SIZE", "12")
-    monkeypatch.setenv("DBKEEL_POSTGRES_ACQUIRE_TIMEOUT", "2.5")
+    monkeypatch.setenv("DBKEEL_PG_CONNINFO", "host=localhost dbname=app")
+    monkeypatch.setenv("DBKEEL_PG_MIN_SIZE", "2")
+    monkeypatch.setenv("DBKEEL_PG_MAX_SIZE", "12")
+    monkeypatch.setenv("DBKEEL_PG_ACQUIRE_TIMEOUT", "2.5")
 
     settings = PostgresSettings(max_size=20)
 
@@ -39,7 +39,7 @@ def test_dotenv_requires_explicit_selection(
 ) -> None:
     env_file = tmp_path / ".env"
     env_file.write_text(
-        "DBKEEL_POSTGRES_CONNINFO=host=dotenv\nOTHER_APP_SETTING=ignored\n"
+        "DBKEEL_PG_CONNINFO=host=dotenv\nOTHER_APP_SETTING=ignored\n"
     )
     monkeypatch.chdir(tmp_path)
 
@@ -50,7 +50,7 @@ def test_dotenv_requires_explicit_selection(
         PostgresSettings(_env_file=env_file).conninfo.get_secret_value()
         == "host=dotenv"
     )
-    monkeypatch.setenv("DBKEEL_POSTGRES_CONNINFO", "host=environment")
+    monkeypatch.setenv("DBKEEL_PG_CONNINFO", "host=environment")
     assert (
         PostgresSettings(_env_file=env_file).conninfo.get_secret_value()
         == "host=environment"
