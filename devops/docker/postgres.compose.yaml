@@ -1,0 +1,23 @@
+# 在项目根目录运行：
+# docker compose --env-file devops/docker/example.env.d/postgres.env -f devops/docker/postgres.compose.yaml up -d --wait
+# 清空数据库：使用相同参数执行 down -v。
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-dbkeel}
+      POSTGRES_USER: ${POSTGRES_USER:-dbkeel}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请设置 POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  postgres_data:

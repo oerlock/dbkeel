@@ -166,6 +166,7 @@ venv.bak/
 .support/
 !example.env.d/
 !example.env.d/**
+!devops/docker/example.env.d/*.env
 
 # Spyder project settings
 .spyderproject
