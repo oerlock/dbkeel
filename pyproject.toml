@@ -6,6 +6,9 @@ description = "Lightweight relational database infrastructure for asynchronous P
 requires-python = ">=3.14"
 dependencies = []
 
+[project.scripts]
+dbkeel = "dbkeel.cli:main"
+
 [project.optional-dependencies]
 postgres = [
     "psycopg[binary,pool]>=3.3.9",

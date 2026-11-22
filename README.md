@@ -41,6 +41,19 @@ uv sync --extra postgres
 uv remove <包名>
 ```
 
+## 命令行
+
+安装 CLI 可选依赖后，可以查看帮助和版本：
+
+```bash
+uv sync --extra cli
+uv run --extra cli dbkeel --help
+uv run --extra cli dbkeel --version
+```
+
+也支持 `uv run --extra cli python -m dbkeel --help`。不带参数时显示帮助。
+当前仅提供命令行入口，数据库操作和迁移命令后续逐步添加。
+
 ## 测试
 
 ```bash
