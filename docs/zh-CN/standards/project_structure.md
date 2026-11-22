@@ -24,12 +24,15 @@
 ├── pyproject.toml         # 项目元数据、依赖与工具配置。测试与覆盖率配置统一放这里，不重复维护 pytest.ini 或 .coveragerc。
 ├── uv.lock                # uv 依赖锁文件
 ├── .gitignore
+├── .gitattributes         # Git 文本换行规则
+├── .editorconfig          # 编辑器编码与换行约定
 ├── docs/                  # 开发规范、设计说明与使用指南
 ├── src/                   # 可发布的库源码
 ├── tests/                 # 单元测试与集成测试
 ├── examples/              # 独立脚本与使用者迁移脚本示例
 ├── devops/                # 开发、测试与发布支持文件
 │   └── docker/            # 集成测试数据库的容器配置
+├── data_persistent/       # 本地持久化数据（不纳入 git 管理）
 └── tmp/                   # 临时文件，按 YYYYMMDD/ 存放（不纳入 git 管理）
 ```
 
@@ -61,12 +64,16 @@ src/
 devops/docker/
 ├── mysql.compose.yaml
 ├── postgres.compose.yaml
-└── example.env.d/
-    ├── mysql.env
-    └── postgres.env
+├── example.env.d/         # 可提交的示例环境变量
+│   ├── mysql.env
+│   └── postgres.env
+├── .env.d/                # 本地环境变量覆盖（不纳入 git 管理，按需创建）
+└── example.support/
+    └── scripts/
+        └── postgres/      # PG 的初始化脚本
 ```
 
-## test/
+## tests/
 
 测试统一放在 `tests/`，按是否依赖真实数据库分层，各层内部按被测模块或数据库组织。
 
