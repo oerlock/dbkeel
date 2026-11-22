@@ -1,3 +1,4 @@
+# 项目元数据与运行依赖
 [project]
 name = "dbkeel"
 version = "0.1.0"
@@ -5,10 +6,12 @@ description = "Lightweight relational database infrastructure for asynchronous P
 requires-python = ">=3.14"
 dependencies = []
 
+# 使用 uv_build 构建发布包
 [build-system]
 requires = ["uv_build>=0.13.1,<0.14.0"]
 build-backend = "uv_build"
 
+# 开发工具与测试依赖
 [dependency-groups]
 dev = [
     "mypy>=2.4.1",
@@ -18,17 +21,22 @@ dev = [
     "ruff>=0.17.6",
 ]
 
+# 测试发现与运行配置
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# 独立导入测试模块，严格检查配置和标记，汇总非通过结果
 addopts = ["--import-mode=importlib", "--strict-config", "--strict-markers", "-ra"]
+# 自动识别异步测试与 fixture，每个测试使用独立事件循环
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 asyncio_default_test_loop_scope = "function"
 
+# 统计 dbkeel 源码的行覆盖率和分支覆盖率
 [tool.coverage.run]
 source = ["dbkeel"]
 branch = true
 
+# 显示未覆盖行，省略无可执行代码的文件
 [tool.coverage.report]
 show_missing = true
 skip_empty = true
