@@ -242,5 +242,5 @@ AGENTS.override.md
 *mine*
 push_all.sh
 
-# Local database data
+# Local data
 /data_persistent/
