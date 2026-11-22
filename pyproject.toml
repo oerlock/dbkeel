@@ -6,6 +6,11 @@ description = "Lightweight relational database infrastructure for asynchronous P
 requires-python = ">=3.14"
 dependencies = []
 
+[project.optional-dependencies]
+postgres = [
+    "psycopg[binary,pool]>=3.3.9",
+]
+
 # 使用 uv_build 构建发布包
 [build-system]
 requires = ["uv_build>=0.13.1,<0.14.0"]
