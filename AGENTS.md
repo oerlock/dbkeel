@@ -9,6 +9,7 @@
 ### 文件快速索引
 
 - [分支规范](docs/zh-CN/standards/branching.md)：规定分支模型与命名、日常开发与 PR 合并流程，以及版本 tag 和发布规则。
+- [项目目录结构](docs/zh-CN/standards/project_structure.md)：规定目标目录结构、目录职责与代码和测试的组织方式。
 
 ## 工具
 
