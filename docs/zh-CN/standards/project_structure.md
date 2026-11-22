@@ -50,13 +50,7 @@ docs/
 src/
 └── dbkeel/
     ├── __init__.py         # 公共 API 导出
-    ├── connection.py       # 连接与连接池的通用接口及生命周期
-    ├── execution.py        # SQL 执行、参数绑定与结果读取
-    ├── transaction.py      # 事务接口与通用流程
-    ├── migration.py        # SQL 迁移发现、版本记录与执行流程
-    ├── exceptions.py       # 通用异常
-    └── drivers/            # 具体数据库与底层 Python 驱动适配
-        └── __init__.py
+    └── ...
 ```
 
 ## devops/docker/
@@ -80,13 +74,10 @@ devops/docker/
 tests/
 ├── conftest.py             # 跨测试目录共享的 fixture
 ├── unit/
-│   ├── test_connection.py
-│   ├── test_execution.py
-│   ├── test_transaction.py
-│   └── test_migration.py
+│   └── ...
 └── integration/
     ├── conftest.py         # 数据库连接、初始化与清理 fixture
-    └── drivers/            # 按数据库组织真实数据库测试
+    └── ...
 ```
 
 - `unit/`：不依赖真实数据库，验证核心接口与通用流程，必要时使用替身模拟驱动行为。
