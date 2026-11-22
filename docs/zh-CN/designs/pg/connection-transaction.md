@@ -13,24 +13,6 @@
 
 ## 公共 API
 
-从 `dbkeel.settings` 导入 `BaseDBSettings`，从 `dbkeel.postgres` 导入 `PostgresSettings`。`PostgresDatabase` 后续在同一模块提供，仅接受配置对象：
-
-```python
-settings = PostgresSettings()
-db = PostgresDatabase(settings)
-```
-
-`BaseDBSettings` 继承 `pydantic_settings.BaseSettings`，承载公共连接池字段和校验规则；`PostgresSettings` 继承它并增加连接字符串与环境变量前缀。时间单位均为秒：
-
-| 字段 | 类型 | 默认值 | 约束 |
-| --- | --- | --- | --- |
-| `conninfo` | `SecretStr` | 必填 | 非空、非纯空白，PostgreSQL 专属 |
-| `min_size` | `int` | `1` | 大于等于 1 |
-| `max_size` | `int` | `10` | 大于等于 `min_size` |
-| `connect_timeout` | `int` | `10` | 大于 0 |
-| `acquire_timeout` | `float` | `30.0` | 有限且大于 0 |
-| `startup_timeout` | `float` | `30.0` | 有限且大于 0 |
-
 | 接口 | 行为 |
 | --- | --- |
 | `await db.open()` | 打开连接池并等待就绪 |
@@ -84,7 +66,7 @@ async with db.connection() as conn:
 - `conninfo` 以 `SecretStr` 保存，接受 Psycopg 支持的 PostgreSQL URI 或键值连接字符串，不自行解析或转换，交给驱动时提取原值。数据库、用户、密码、SSL、`application_name` 等通过它配置。
 - `min_size >= 1`，`max_size >= min_size`，超时必须为正数，实例化配置类时验证。首期不支持零连接启动或无限等待。
 - `connect_timeout` 显式传给驱动，覆盖连接字符串中的同名设置，控制底层连接尝试；`startup_timeout` 限制整个启动就绪等待；`acquire_timeout` 限制调用者等待连接的时间。
-- 仅在显式实例化 `PostgresSettings` 时读取配置，导入模块不创建配置实例。环境变量使用 `DBKEEL_PG_` 前缀，例如 `DBKEEL_PG_CONNINFO`。
+- 仅在显式实例化 `PostgresSettings` 时读取配置，导入模块不创建配置实例。环境变量使用 `DBKEEL_POSTGRES_` 前缀，例如 `DBKEEL_POSTGRES_CONNINFO`。
 - 默认不加载 `.env`，需要时显式使用 `PostgresSettings(_env_file=".env")`。配置值默认优先级为显式参数、环境变量、指定 dotenv 文件、指定 secrets 目录、字段默认值，沿用 pydantic-settings 的来源机制。
 - 允许共享 `.env` 中的无关字段（`extra="ignore"`）；配置实例不可修改，变更配置需新建实例。校验错误文本隐藏输入值，但结构化错误仍应由调用方筛选后记录。
 - Psycopg/libpq 对缺省连接参数的处理保留原有行为。
