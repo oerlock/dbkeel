@@ -1,23 +1,22 @@
 # 在项目根目录运行：
 # docker compose --env-file devops/docker/example.env.d/postgres.env -f devops/docker/postgres.compose.yaml up -d --wait
-# 清空数据库：使用相同参数执行 down -v。
+# 清空数据库：先使用相同参数执行 down，再手动删除项目根目录下的 data_persistent/postgresql 目录。
 services:
   postgres:
-    image: postgres:18
+    image: postgres:18-bookworm
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-dbkeel}
+      POSTGRES_TEST_DB: ${POSTGRES_TEST_DB:-dbkeel_test}
       POSTGRES_USER: ${POSTGRES_USER:-dbkeel}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请设置 POSTGRES_PASSWORD}
     ports:
       - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - ../../data_persistent/postgresql:/var/lib/postgresql
+      - ./example.support/scripts/postgres/initdb:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 10s
-
-volumes:
-  postgres_data:

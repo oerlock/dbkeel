@@ -241,3 +241,6 @@ AGENTS.override.md
 # Developer personal artifacts
 *mine*
 push_all.sh
+
+# Local database data
+/data_persistent/
